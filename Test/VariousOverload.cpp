@@ -16,6 +16,17 @@ namespace overload {
         std::vector<int> c;
         overload::f(c);
     }
+
+    TEST(VariousOverload, enable_hogefuga)
+    {
+        Hoge hoge;
+        auto actual = enable_hogefuga(hoge);
+        EXPECT_EQ("hoge", actual);
+
+        Fuga fuga;
+        actual = enable_hogefuga(fuga);
+        EXPECT_EQ("fuga", actual);
+    }
     
     TEST(VariousOverload, classFunc)
     {

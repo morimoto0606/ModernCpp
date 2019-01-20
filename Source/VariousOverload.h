@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <type_traits>
+#include <string>
 namespace overload {
     
     // 1. enable if
@@ -70,6 +71,46 @@ namespace overload {
         std::cout << "this is base of X" << std::endl;
         x.show();
     }
+
+    class Hoge {
+    public:
+        std::string hoge() const {
+            return "hoge";
+        }
+    };
+    class Fuga {
+    public:
+        std::string  fuga() const {
+            return "fuga";
+        }
+    };
+
+    template <typename T>
+    struct isHoge: std::false_type {};
+
+    template <>
+    struct isHoge<Hoge> : std::true_type {};
+
+    template <typename T>
+    struct isFuga : std::false_type {};
+
+    template <>
+    struct isFuga<Fuga> : std::true_type {};
+
+    template <typename T>
+    typename std::enable_if_t<isHoge<T>::value, std::string>
+    enable_hogefuga(const T& x) {
+        return x.hoge();
+    }
+
+    template <typename T>
+    typename std::enable_if_t<isFuga<T>::value, std::string>
+    enable_hogefuga(const T& x) {
+        return x.fuga();
+    }
+
+
+
    
     // 2. CRTP
     template <typename T>
